@@ -15,18 +15,6 @@ class BooksViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = Book.objects.all()
-        name_filter = self.request.query_params.get('name', None)
-        if name_filter is not None:
-            queryset = queryset.filter(name=name_filter)
-        country_filter = self.request.query_params.get('country', None)
-        if country_filter is not None:
-            queryset = queryset.filter(country=country_filter)
-        publisher_filter = self.request.query_params.get('publisher', None)
-        if publisher_filter is not None:
-            queryset = queryset.filter(publisher=publisher_filter)
-        release_year_filter = self.request.query_params.get('year', None)
-        if release_year_filter is not None:
-            queryset = queryset.filter(released_date__year=release_year_filter)
         serializer = BookModelSerializer(queryset, many=True)
         return Response({"status_code": 200,
                          "status": "success",
