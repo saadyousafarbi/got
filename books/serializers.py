@@ -1,10 +1,12 @@
 from rest_framework import serializers
-from rest_framework.relations import StringRelatedField
 
 from books.models import Book, Author, Publisher, Country
 
 
 class BookAPISerializer(serializers.Serializer):
+    """
+    Serializer for Ice and Fire API to retrieve books.
+    """
     name = serializers.CharField()
     isbn = serializers.CharField()
     authors = serializers.ListField()
@@ -15,39 +17,72 @@ class BookAPISerializer(serializers.Serializer):
 
 
 class AuthorSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Author model.
+    """
     class Meta:
         model = Author
         fields = ('name',)
 
     def to_representation(self, instance):
+        """
+        external representation of serialized data for Author model.
+        """
         return instance.name
 
     def to_internal_value(self, data):
+        """
+        internal value of serialized data for Author model.
+        """
         return Author.objects.get(name=data)
 
+
 class CountrySerializer(serializers.ModelSerializer):
+    """
+    Serializer for Country model.
+    """
     class Meta:
         model = Country
         fields = ('name', )
 
     def to_representation(self, instance):
+        """
+        external representation of serialized data for Country model.
+        """
         return instance.name
 
     def to_internal_value(self, data):
+        """
+        internal value of serialized data for Country model.
+        """
         return Country.objects.get(name=data)
 
+
 class PublisherSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Publisher model.
+    """
     class Meta:
         model = Publisher
         fields = ('name', )
 
     def to_representation(self, instance):
+        """
+        external representation of serialized data for Publisher model.
+        """
         return instance.name
 
     def to_internal_value(self, data):
+        """
+        internal value of serialized data for Publisher model.
+        """
         return Publisher.objects.get(name=data)
 
+
 class BookModelSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Book model.
+    """
     authors = AuthorSerializer(many=True)
     publisher = PublisherSerializer()
     country = CountrySerializer()
@@ -57,6 +92,9 @@ class BookModelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
+        """
+        Creation of new Book after serializer validated.
+        """
         authors = validated_data.pop('authors')
         new_book = Book.objects.create(**validated_data)
         new_book.authors.add(*authors)
@@ -64,6 +102,9 @@ class BookModelSerializer(serializers.ModelSerializer):
         return new_book
 
     def update(self, instance, validated_data):
+        """
+        Update specified Book instance with validated data
+        """
         instance.name = validated_data.get('name', instance.name)
         instance.isbn = validated_data.get('isbn', instance.isbn)
         instance.country = validated_data.get('country', instance.country)
