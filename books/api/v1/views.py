@@ -8,6 +8,9 @@ from books.models import Book
 from books.serializers import BookModelSerializer
 
 
+VALID_FILTERS = {'name', 'country', 'publisher', 'release_date'}
+
+
 class BooksViewSet(ModelViewSet):
     """
     Viewset based on Book model. Provides create,
@@ -23,6 +26,9 @@ class BooksViewSet(ModelViewSet):
         """
         Retrieve list of books with/without query_params.
         """
+        if bool(set(request.GET).difference(VALID_FILTERS)):
+            return Response(data=transform_response(status="failure", status_code=400,
+                                                    data=[], message="Provided query_params are not valid."))
         response = super(BooksViewSet, self).list(request, *args, **kwargs)
         return Response(data=transform_response(status="success", status_code=response.status_code,
                                                 data=response.data, message=None))
