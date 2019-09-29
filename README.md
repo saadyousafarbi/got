@@ -8,7 +8,8 @@ git clone https://github.com/saadyousafarbi/got.git
 ```
 
 ###Setup virtual environment for project
-```virtualenv -p python3 ice-and-fire
+```
+virtualenv -p python3 ice-and-fire
 source ice-and-fire/bin/activate
 pip install -r requirements.txt
 ```
