@@ -10,12 +10,13 @@ class IceAndFireAPI:
     url_endpoint = "https://www.anapioficeandfire.com/api/books"
     serializer = BookAPISerializer
 
-    def update_endpoint_with_query_params(self, name):
+    def update_endpoint_with_query_params(self, query_params):
         """
         Helper function to parse query params for Ice and Fire API.
-        :param name:
+        :param query_params:
         :return:
         """
+        name = query_params.get('name', None)
         if name is not None:
             self.url_endpoint += "?name={}".format(name)
 
@@ -23,7 +24,7 @@ class IceAndFireAPI:
         """
         Retrieve books from Ice and Fire API.
         """
-        self.update_endpoint_with_query_params(query_params.get('name', None))
+        self.update_endpoint_with_query_params(query_params)
         api_response = requests.get(self.url_endpoint)
         serializer = self.serializer(data=api_response.json(), many=True)
         serializer.is_valid()

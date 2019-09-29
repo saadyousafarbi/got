@@ -34,7 +34,10 @@ class AuthorSerializer(serializers.ModelSerializer):
         """
         internal value of serialized data for Author model.
         """
-        return Author.objects.get(name=data)
+        try:
+            return Author.objects.get(name=data)
+        except Author.DoesNotExist:
+            raise serializers.ValidationError("{} Author does not exist.".format(data))
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -55,7 +58,10 @@ class CountrySerializer(serializers.ModelSerializer):
         """
         internal value of serialized data for Country model.
         """
-        return Country.objects.get(name=data)
+        try:
+            return Country.objects.get(name=data)
+        except Country.DoesNotExist:
+            raise serializers.ValidationError("{} Country does not exist.".format(data))
 
 
 class PublisherSerializer(serializers.ModelSerializer):
@@ -76,7 +82,10 @@ class PublisherSerializer(serializers.ModelSerializer):
         """
         internal value of serialized data for Publisher model.
         """
-        return Publisher.objects.get(name=data)
+        try:
+            return Publisher.objects.get(name=data)
+        except Publisher.DoesNotExist:
+            raise serializers.ValidationError("{} Publisher does not exist.".format(data))
 
 
 class BookModelSerializer(serializers.ModelSerializer):
