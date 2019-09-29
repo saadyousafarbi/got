@@ -28,5 +28,5 @@ python manage.py runserver
 ###API endpoints
 |Endpoint        |  URL                                          |
 |----------------|-----------------------------------------------|
-|External books  |`http://127.0.0.1:8000/api/v1/external-books`  |
+|External books  |`http://127.0.0.1:8000/api/external-books`     |
 |Books           |`http://127.0.0.1:8000/api/v1/books`           |
