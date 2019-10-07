@@ -22,7 +22,7 @@ python manage.py migrate
 
 ### Run tests
 ```
-python manange.py test
+python manage.py test
 ```
 
 ### Run server
