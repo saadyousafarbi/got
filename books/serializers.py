@@ -92,13 +92,14 @@ class BookModelSerializer(serializers.ModelSerializer):
     """
     Serializer for Book model.
     """
+    release_date = serializers.DateTimeField(source="released_date", format="%Y-%m-%d")
     authors = AuthorSerializer(many=True)
     publisher = PublisherSerializer()
     country = CountrySerializer()
 
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ('id', 'name', 'isbn', 'authors', 'number_of_pages', 'publisher', 'country', 'release_date')
 
     def create(self, validated_data):
         """
