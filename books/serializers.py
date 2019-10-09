@@ -11,9 +11,9 @@ class BookAPISerializer(serializers.Serializer):
     isbn = serializers.CharField()
     authors = serializers.ListField()
     publisher = serializers.CharField()
-    numberOfPages = serializers.IntegerField()
+    number_of_pages = serializers.IntegerField(source="numberOfPages")
     country = serializers.CharField()
-    released = serializers.DateTimeField()
+    release_date = serializers.DateField(source="released", format="%d-%m-%Y")
 
 
 class AuthorSerializer(serializers.ModelSerializer):
