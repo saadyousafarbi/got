@@ -39,14 +39,14 @@ class BooksViewSet(ModelViewSet):
         """
         response = super(BooksViewSet, self).create(request, *args, **kwargs)
         return Response(data=transform_response(status="success", status_code=response.status_code,
-                                                data=response.data, message=None))
+                                                data={'book': response.data}, message=None))
 
     def update(self, request, *args, **kwargs):
         """
         Updates book instance with arguments passed in PATCH request.
         """
-        response = super(BooksViewSet, self).update(request, *args, **kwargs)
         book_name = self.get_object().name
+        response = super(BooksViewSet, self).update(request, *args, **kwargs)
         return Response(data=transform_response(status="success", status_code=response.status_code, data=response.data,
                                                 message="The book {} was updated successfully".format(book_name)))
 
@@ -65,4 +65,4 @@ class BooksViewSet(ModelViewSet):
         """
         response = super(BooksViewSet, self).retrieve(request, *args, **kwargs)
         return Response(data=transform_response(status="success", status_code=response.status_code,
-                                                data=response.data, message=None))
+                                                data={'book': response.data}, message=None))

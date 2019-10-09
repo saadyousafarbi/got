@@ -11,9 +11,9 @@ class BookAPISerializer(serializers.Serializer):
     isbn = serializers.CharField()
     authors = serializers.ListField()
     publisher = serializers.CharField()
-    numberOfPages = serializers.IntegerField()
+    number_of_pages = serializers.IntegerField(source="numberOfPages")
     country = serializers.CharField()
-    released = serializers.DateTimeField()
+    release_date = serializers.DateField(source="released", format="%d-%m-%Y")
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -92,13 +92,14 @@ class BookModelSerializer(serializers.ModelSerializer):
     """
     Serializer for Book model.
     """
+    release_date = serializers.DateTimeField(source="released_date", format="%Y-%m-%d")
     authors = AuthorSerializer(many=True)
     publisher = PublisherSerializer()
     country = CountrySerializer()
 
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ('id', 'name', 'isbn', 'authors', 'number_of_pages', 'publisher', 'country', 'release_date')
 
     def create(self, validated_data):
         """

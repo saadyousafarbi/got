@@ -28,4 +28,4 @@ class IceAndFireAPI:
         api_response = requests.get(self.url_endpoint)
         serializer = self.serializer(data=api_response.json(), many=True)
         serializer.is_valid()
-        return serializer.validated_data
+        return serializer.data
